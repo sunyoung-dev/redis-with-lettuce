@@ -18,6 +18,9 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     compile 'io.lettuce:lettuce-core:5.2.1.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compile 'com.google.code.gson:gson:2.7'
 }
 
 test {

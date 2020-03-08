@@ -1,0 +1,14 @@
+POST http://localhost:8080/person
+Content-Type: application/json
+
+{"name": "Nora", "age": 31, "birthDate": "1990-04-16", "hobby": "making pretzels"}
+
+###
+
+GET http://localhost:8080/person/1
+
+###
+
+DELETE http://localhost:8080/person/1
+
+###
