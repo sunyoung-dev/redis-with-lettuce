@@ -2,7 +2,7 @@ package com.example.lettuce.repository;
 
 import com.example.lettuce.model.Person;
 import com.google.gson.Gson;
-import io.lettuce.core.RedisClient;
+import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,8 +17,8 @@ public class RedisPersonRepository implements PersonRepository {
     private final RedisCommands<String, String> redisSyncCommands;
 
     @Autowired
-    public RedisPersonRepository(RedisClient redisClient) {
-        this.redisSyncCommands = redisClient.connect().sync();
+    public RedisPersonRepository(StatefulRedisConnection<String, String> connection) {
+        this.redisSyncCommands = connection.sync();
     }
 
     private String key(long id) {
