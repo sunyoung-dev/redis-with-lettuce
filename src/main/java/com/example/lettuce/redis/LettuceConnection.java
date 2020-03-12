@@ -20,6 +20,10 @@ public class LettuceConnection<K, V> {
         this.redisCodec = redisCodec;
     }
 
+    private StatefulRedisConnection<K, V> connect() {
+        return redisClient.connect(redisCodec);
+    }
+
     public StatefulRedisConnection<K, V> getConnection() {
         return RedisConnectionHolder.getConnection(this);
     }
@@ -27,10 +31,10 @@ public class LettuceConnection<K, V> {
     private static class RedisConnectionHolder {
         private static Map<LettuceConnection<?, ?>, StatefulRedisConnection> holder = new HashMap<>();
 
-        private static <K, V> StatefulRedisConnection<K, V> getConnection(LettuceConnection<K, V> lettuceConnection) {
+        private static synchronized <K, V> StatefulRedisConnection<K, V> getConnection(LettuceConnection<K, V> lettuceConnection) {
             Assert.notNull(lettuceConnection, "No RedisTemplate specified");
             if (!holder.containsKey(lettuceConnection)) {
-                holder.put(lettuceConnection, lettuceConnection.getRedisClient().connect(lettuceConnection.getRedisCodec()));
+                holder.put(lettuceConnection, lettuceConnection.connect());
             }
 
             return holder.get(lettuceConnection);
